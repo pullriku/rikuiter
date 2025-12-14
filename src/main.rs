@@ -1,7 +1,4 @@
-trait MyIterator {
-    type Item;
-    fn next(&mut self) -> Option<Self::Item>;
-}
+use rikuiter::iter::{MyIterator, StdIter};
 
 struct Counter {
     count: usize,
@@ -43,16 +40,6 @@ impl MyIterator for RangeUsize {
         } else {
             None
         }
-    }
-}
-
-struct StdIter<T>(T);
-
-impl<T: MyIterator> Iterator for StdIter<T> {
-    type Item = T::Item;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        self.0.next()
     }
 }
 
