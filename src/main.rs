@@ -27,4 +27,8 @@ fn main() {
     println!("{:?}", counter.next()); // Some(0)
     println!("{:?}", counter.next()); // Some(1)
     println!("{:?}", counter.next()); // Some(2)
+
+    for i in counter {
+        println!("{}", i);
+    }
 }
