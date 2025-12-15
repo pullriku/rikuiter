@@ -22,15 +22,10 @@ where
 
     fn next(&mut self) -> Option<Self::Item> {
         if self.remaining == 0 {
-            return None;
-        }
-
-        match self.inner.next() {
-            Some(x) => {
-                self.remaining -= 1;
-                Some(x)
-            }
-            None => None,
+            None
+        } else {
+            self.remaining -= 1;
+            self.inner.next()
         }
     }
 }
