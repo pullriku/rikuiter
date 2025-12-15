@@ -46,31 +46,36 @@ impl MyIterator for RangeUsize {
 }
 
 fn main() {
-    print!("[filter+map] even in 0..10, then *10 =>");
-    RangeUsize::new(0, 10)
-        .filter(|x| *x % 2 == 0)
-        .map(|x| x * 10)
-        .for_each(|x| print!(" {}", x));
-    println!(); // 0 20 40 60 80
+    let v = RangeUsize::new(0, 10).skip(3).collect_vec();
+    println!("[skip] 0..10 skip(3) => {:?}", v); // [3,4,5,6,7,8,9]
 
-    let v = RangeUsize::new(1, 21)
-        .filter(|x| *x % 3 == 0)
-        .map(|x| x * 100)
+    let v = RangeUsize::new(0, 10).take(4).collect_vec();
+    println!("[take] 0..10 take(4) => {:?}", v); // [0,1,2,3]
+
+    // skipしてからtake
+    let v = RangeUsize::new(0, 10).skip(3).take(4).collect_vec();
+    println!("[skip+take] 0..10 skip(3).take(4) => {:?}", v); // [3,4,5,6]
+
+    // takeしてからskip
+    let v = RangeUsize::new(0, 10)
+        .take(7) // [0,1,2,3,4,5,6]
+        .skip(3) // [3,4,5,6]
         .collect_vec();
-    println!("[filter+map+collect_vec] multiples of 3 in 1..21 => {:?}", v);
-    // [300, 600, 900, 1200, 1500, 1800]
+    println!("[take+skip] 0..10 take(7).skip(3) => {:?}", v); // [3,4,5,6]
 
-    let sum = RangeUsize::new(1, 11)
-        .filter(|x| *x % 2 == 1) // odd
-        .map(|x| x * x)          // square
-        .sum();
-    println!("[filter+map+sum] sum of odd squares in 1..11 => {}", sum); // 1+9+25+49+81=165
+    // skipが大きすぎると空
+    let v = RangeUsize::new(0, 5).skip(100).collect_vec();
+    println!("[skip too much] 0..5 skip(100) => {:?}", v); // []
 
-    let mut it = RangeUsize::new(1, 100)
-        .filter(|x| *x % 7 == 0)
-        .map(|x| x + 1); // 7->8, 14->15, ...
-    let found = it.find(|x| *x % 5 == 0); // 15 が最初に当たる
-    println!("[filter+map+find] first (multiple of 7)+1 divisible by 5 => {:?}", found); // Some(15)
-    let after = it.next();
-    println!("[filter+map+find] then next() => {:?}", after); // Some(22)
+    let v = RangeUsize::new(0, 5).take(0).collect_vec();
+    println!("[take 0] 0..5 take(0) => {:?}", v); // []
+
+    let s = RangeUsize::new(0, 10).skip(3).take(4).sum();
+    println!("[sum] 0..10 skip(3).take(4) sum => {}", s); // 3+4+5+6 = 18
+
+    let n = RangeUsize::new(0, 10).skip(3).take(4).count();
+    println!("[count] 0..10 skip(3).take(4) count => {}", n); // 4
+
+    let last = RangeUsize::new(0, 10).skip(3).take(4).last();
+    println!("[last] 0..10 skip(3).take(4) last => {:?}", last); // Some(6)
 }
