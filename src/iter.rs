@@ -1,6 +1,6 @@
 use std::ops;
 
-use crate::adapter::Filter;
+use crate::adapter::{Filter, Map};
 
 pub trait MyIterator {
     type Item;
@@ -101,6 +101,14 @@ pub trait MyIterator {
         Self: Sized,
     {
         Filter::new(self, predicate)
+    }
+
+    fn map<B, F>(self, f: F) -> Map<Self, F>
+    where
+        F: FnMut(Self::Item) -> B,
+        Self: Sized,
+    {
+        Map::new(self, f)
     }
 }
 
