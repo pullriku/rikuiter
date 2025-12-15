@@ -1,5 +1,7 @@
 use std::ops;
 
+use crate::adapter::Filter;
+
 pub trait MyIterator {
     type Item;
     fn next(&mut self) -> Option<Self::Item>;
@@ -91,6 +93,14 @@ pub trait MyIterator {
             vec.push(x);
         }
         vec
+    }
+
+    fn filter<P>(self, predicate: P) -> Filter<Self, P>
+    where
+        P: FnMut(&Self::Item) -> bool,
+        Self: Sized,
+    {
+        Filter::new(self, predicate)
     }
 }
 

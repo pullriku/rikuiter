@@ -46,34 +46,28 @@ impl MyIterator for RangeUsize {
 }
 
 fn main() {
-    let n = RangeUsize::new(0, 5).count();
-    println!("[count] 0..5 => {}", n); // 5
+    print!("[filter] even in 0..10 =>");
+    RangeUsize::new(0, 10)
+        .filter(|x| *x % 2 == 0)
+        .for_each(|x| print!(" {}", x));
+    println!(); // 0 2 4 6 8
 
-    print!("[for_each] 0..5 =>");
-    RangeUsize::new(0, 5).for_each(|x| print!(" {}", x));
-    println!();
+    let n = RangeUsize::new(0, 100).filter(|x| *x % 3 == 0).count();
+    println!("[filter+count] multiples of 3 in 0..100 => {}", n); // 34
 
-    let last = RangeUsize::new(10, 15).last();
-    println!("[last] 10..15 => {:?}", last); // Some(14)
+    let last_even = RangeUsize::new(0, 10).filter(|x| *x % 2 == 0).last();
+    println!("[filter+last] last even in 0..10 => {:?}", last_even); // Some(8)
 
-    let sum = RangeUsize::new(1, 6).fold(0usize, |acc, x| acc + x);
-    println!("[fold] sum 1..6 => {}", sum); // 1+2+3+4+5 = 15
+    let sum_even = RangeUsize::new(1, 11).filter(|x| *x % 2 == 0).sum();
+    println!("[filter+fold] sum of evens in 1..11 => {}", sum_even); // 2+4+6+8+10 = 30
 
-    let sum = RangeUsize::new(1, 6).sum();
-    println!("[sum] sum 1..6 => {}", sum);
+    let v = RangeUsize::new(0, 20).filter(|x| *x % 7 == 0).collect_vec();
+    println!("[filter+collect_vec] multiples of 7 in 0..20 => {:?}", v); // [0, 7, 14]
 
-    let v = RangeUsize::new(3, 8).collect_vec();
-    println!("[collect_vec] 3..8 => {:?}", v); // [3, 4, 5, 6, 7]
-
-    let mut it = RangeUsize::new(100, 110);
-    let third = it.nth(3); // 100,101,102,[103]...
-    println!("[nth] 100..110 nth(3) => {:?}", third); // Some(103)
-    let next = it.next();
-    println!("[nth] then next() => {:?}", next); // Some(104)
-
-    let mut it = RangeUsize::new(0, 20);
-    let found = it.find(|x| *x % 7 == 0 && *x != 0);
-    println!("[find] first nonzero multiple of 7 in 0..20 => {:?}", found); // Some(7)
-    let after = it.next();
-    println!("[find] then next() => {:?}", after); // Some(8)
+    let mut it = RangeUsize::new(0, 20).filter(|x| *x % 5 == 0);
+    //  nth は「filter後の列」に対して数える
+    let third = it.nth(3); // 0,5,10,[15]...
+    println!("[filter+nth] (0..20).filter(%5==0).nth(3) => {:?}", third); // Some(15)
+    let next = it.next(); // もう次は無い (0,5,10,15 で終わり)
+    println!("[filter+nth] then next() => {:?}", next); // None
 }
