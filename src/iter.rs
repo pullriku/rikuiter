@@ -6,17 +6,19 @@ pub trait MyIterator {
 
     // consume系
 
-    fn count(mut self) -> usize
+    fn count(self) -> usize
     where
         Self: Sized,
     {
-        let mut count = 0;
+        // let mut count = 0;
 
-        while self.next().is_some() {
-            count += 1;
-        }
+        // while self.next().is_some() {
+        //     count += 1;
+        // }
 
-        count
+        // count
+
+        self.fold(0usize, |acc, _| acc + 1)
     }
 
     fn for_each<F>(mut self, mut f: F)
@@ -29,26 +31,24 @@ pub trait MyIterator {
         }
     }
 
-    fn last(mut self) -> Option<Self::Item>
+    fn last(self) -> Option<Self::Item>
     where
         Self: Sized,
     {
-        let mut last = None;
-        while let Some(x) = self.next() {
-            last = Some(x);
-        }
-        last
+        // let mut last = None;
+        // while let Some(x) = self.next() {
+        //     last = Some(x);
+        // }
+        // last
+
+        self.fold(None, |_, x| Some(x))
     }
 
     fn nth(&mut self, n: usize) -> Option<Self::Item> {
-        let mut i = 0;
-        while let Some(x) = self.next() {
-            if i == n {
-                return Some(x);
-            }
-            i += 1;
+        for _ in 0..n {
+            self.next()?;
         }
-        None
+        self.next()
     }
 
     fn find<P>(&mut self, mut predicate: P) -> Option<Self::Item>
@@ -82,14 +82,14 @@ pub trait MyIterator {
         self.fold(Self::Item::default(), |acc, x| acc + x)
     }
 
-    fn collect_vec(mut self) -> Vec<Self::Item>
+    fn collect_vec(self) -> Vec<Self::Item>
     where
         Self: Sized,
     {
         let mut vec = Vec::new();
-        while let Some(x) = self.next() {
-            vec.push(x);
-        }
+
+        self.for_each(|x| vec.push(x));
+
         vec
     }
 }
