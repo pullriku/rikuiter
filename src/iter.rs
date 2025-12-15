@@ -1,6 +1,6 @@
 use std::ops;
 
-use crate::adapter::{filter::Filter, map::Map};
+use crate::adapter::{filter::Filter, map::Map, take::Take};
 
 pub trait MyIterator {
     type Item;
@@ -109,6 +109,13 @@ pub trait MyIterator {
         Self: Sized,
     {
         Map::new(self, f)
+    }
+
+    fn take(self, n: usize) -> Take<Self>
+    where
+        Self: Sized,
+    {
+        Take::new(self, n)
     }
 }
 
