@@ -59,6 +59,9 @@ fn main() {
     let sum = RangeUsize::new(1, 6).fold(0usize, |acc, x| acc + x);
     println!("[fold] sum 1..6 => {}", sum); // 1+2+3+4+5 = 15
 
+    let sum = RangeUsize::new(1, 6).sum();
+    println!("[sum] sum 1..6 => {}", sum);
+
     let v = RangeUsize::new(3, 8).collect_vec();
     println!("[collect_vec] 3..8 => {:?}", v); // [3, 4, 5, 6, 7]
 

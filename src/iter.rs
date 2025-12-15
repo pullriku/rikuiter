@@ -1,3 +1,5 @@
+use std::ops;
+
 pub trait MyIterator {
     type Item;
     fn next(&mut self) -> Option<Self::Item>;
@@ -70,6 +72,14 @@ pub trait MyIterator {
             acc = f(acc, x);
         }
         acc
+    }
+
+    fn sum(self) -> Self::Item
+    where
+        Self::Item: ops::Add<Output = Self::Item> + Default,
+        Self: Sized,
+    {
+        self.fold(Self::Item::default(), |acc, x| acc + x)
     }
 
     fn collect_vec(mut self) -> Vec<Self::Item>
