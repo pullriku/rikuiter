@@ -133,6 +133,7 @@ pub trait MyIterator {
     }
 }
 
+#[derive(Debug)]
 pub struct StdIter<T>(pub T);
 
 impl<T: MyIterator> Iterator for StdIter<T> {

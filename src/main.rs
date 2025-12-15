@@ -1,5 +1,6 @@
 use rikuiter::iter::MyIterator;
 
+#[derive(Debug)]
 #[allow(unused)]
 struct Counter {
     count: usize,
@@ -21,6 +22,7 @@ impl MyIterator for Counter {
     }
 }
 
+#[derive(Debug)]
 struct RangeUsize {
     start: usize,
     end: usize,

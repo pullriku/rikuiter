@@ -1,5 +1,6 @@
 use crate::iter::MyIterator;
 
+#[derive(Debug)]
 pub struct Map<I, F> {
     pub(crate) inner: I,
     pub(crate) f: F,

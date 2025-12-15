@@ -1,5 +1,6 @@
 use crate::iter::MyIterator;
 
+#[derive(Debug)]
 pub struct Filter<I, P> {
     inner: I,
     predicate: P,

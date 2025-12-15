@@ -2,6 +2,7 @@ use std::mem;
 
 use crate::iter::MyIterator;
 
+#[derive(Debug)]
 pub struct Skip<I> {
     inner: I,
     remaining: usize,
