@@ -1,6 +1,7 @@
+use std::fmt::Debug;
+
 use crate::iter::MyIterator;
 
-#[derive(Debug)]
 pub struct Map<I, F> {
     pub(crate) inner: I,
     pub(crate) f: F,
@@ -23,5 +24,14 @@ where
         // これと同じ
         // Option::map(self.inner.next(), &mut self.f);
         self.inner.next().map(&mut self.f)
+    }
+}
+
+impl<I, F> Debug for Map<I, F> where I: Debug {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Map")
+        .field("inner", &self.inner)
+        .field("f", &"|x| ...")
+        .finish()
     }
 }
