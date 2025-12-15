@@ -1,6 +1,6 @@
 use std::ops;
 
-use crate::adapter::{Filter, Map};
+use crate::adapter::{filter::Filter, map::Map};
 
 pub trait MyIterator {
     type Item;
