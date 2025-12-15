@@ -73,4 +73,13 @@ fn main() {
     // Take { inner: Filter { inner: Map { inner: Skip { inner: Counter 
     // { count: 0 }, remaining: 5 }, f: "|x| ..." }, predicate: "|x| ..." }, 
     // remaining: 3 }
+
+    let counter_std = Counter::new();
+    let vec: Vec<usize> = counter_std
+        .map(|x| x * 10)
+        .filter(|x| x % 4 == 0)
+        .skip(1)
+        .take(10)
+        .collect_vec();
+    println!("{vec:?}");
 }
