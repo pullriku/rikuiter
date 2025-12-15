@@ -1,9 +1,11 @@
-use rikuiter::iter::{MyIterator, StdIter};
+use rikuiter::iter::MyIterator;
 
+#[allow(unused)]
 struct Counter {
     count: usize,
 }
 
+#[allow(unused)]
 impl Counter {
     fn new() -> Counter {
         Counter { count: 0 }
@@ -44,29 +46,31 @@ impl MyIterator for RangeUsize {
 }
 
 fn main() {
-    println!("== MyIteratorを手で回すデモ ==");
+    let n = RangeUsize::new(0, 5).count();
+    println!("[count] 0..5 => {}", n); // 5
 
-    let mut range = RangeUsize::new(1, 4);
-    while let Some(x) = range.next() {
-        println!("Raw Range: {}", x);
-    }
+    print!("[for_each] 0..5 =>");
+    RangeUsize::new(0, 5).for_each(|x| print!(" {}", x));
+    println!();
 
-    println!("\n== StdIterでラップしてforループを使う ==");
+    let last = RangeUsize::new(10, 15).last();
+    println!("[last] 10..15 => {:?}", last); // Some(14)
 
-    let range_std = StdIter(RangeUsize::new(1, 4));
-    for x in range_std {
-        println!("StdIter: {}", x);
-    }
+    let sum = RangeUsize::new(1, 6).fold(0usize, |acc, x| acc + x);
+    println!("[fold] sum 1..6 => {}", sum); // 1+2+3+4+5 = 15
 
-    println!("\n== 標準メソッドを使いまくる ==");
+    let v = RangeUsize::new(3, 8).collect_vec();
+    println!("[collect_vec] 3..8 => {:?}", v); // [3, 4, 5, 6, 7]
 
-    let counter_std = StdIter(Counter::new());
-    let vec: Vec<usize> = counter_std
-        .map(|x| x * 10)
-        .filter(|x| x % 4 == 0)
-        .skip(1)
-        .take(10)
-        .collect();
+    let mut it = RangeUsize::new(100, 110);
+    let third = it.nth(3); // 100,101,102,[103]...
+    println!("[nth] 100..110 nth(3) => {:?}", third); // Some(103)
+    let next = it.next();
+    println!("[nth] then next() => {:?}", next); // Some(104)
 
-    println!("Result: {vec:?}"); // Result: [20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
+    let mut it = RangeUsize::new(0, 20);
+    let found = it.find(|x| *x % 7 == 0 && *x != 0);
+    println!("[find] first nonzero multiple of 7 in 0..20 => {:?}", found); // Some(7)
+    let after = it.next();
+    println!("[find] then next() => {:?}", after); // Some(8)
 }
