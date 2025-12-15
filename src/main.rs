@@ -74,8 +74,7 @@ fn main() {
     // { count: 0 }, remaining: 5 }, f: "|x| ..." }, predicate: "|x| ..." }, 
     // remaining: 3 }
 
-    let counter_std = Counter::new();
-    let vec: Vec<usize> = counter_std
+    let vec: Vec<usize> = Counter::new()
         .map(|x| x * 10)
         .filter(|x| x % 4 == 0)
         .skip(1)
