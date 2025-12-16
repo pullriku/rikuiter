@@ -64,12 +64,12 @@ fn main() {
     // f: "|x| ..." }
 
     let iter = iter.filter(|x| x % 4 == 0);
-    println!("{iter:?}");
+    println!("{iter:#?}");
     // Filter { inner: Map { inner: Skip { inner: Counter { count: 0 },
     //  remaining: 5 }, f: "|x| ..." }, predicate: "|x| ..." }
 
     let iter = iter.take(3);
-    println!("{iter:?}");
+    println!("{iter:#?}");
     // Take { inner: Filter { inner: Map { inner: Skip { inner: Counter 
     // { count: 0 }, remaining: 5 }, f: "|x| ..." }, predicate: "|x| ..." }, 
     // remaining: 3 }
